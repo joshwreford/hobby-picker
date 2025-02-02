@@ -1,0 +1,485 @@
+import { Hobby } from ".";
+
+export const data: Hobby[] = [
+  {
+    name: "Sports",
+    items: [
+      {
+        name: "Football",
+        items: [
+          { name: "Manchester United" },
+          { name: "Real Madrid" },
+          { name: "Bayern Munich" },
+          { name: "Barcelona" },
+          { name: "Liverpool" },
+          { name: "PSG" },
+          { name: "Juventus" },
+          { name: "AC Milan" },
+          { name: "Arsenal" },
+          { name: "Chelsea" },
+          { name: "Manchester City" },
+          { name: "Borussia Dortmund" },
+          { name: "Fantasy Football" },
+          { name: "Sunday League" },
+        ],
+      },
+      {
+        name: "Basketball",
+        items: [
+          { name: "LA Lakers" },
+          { name: "Chicago Bulls" },
+          { name: "Golden State Warriors" },
+          { name: "Brooklyn Nets" },
+          { name: "Boston Celtics" },
+          { name: "Miami Heat" },
+          { name: "Street Basketball" },
+          { name: "NBA Fantasy" },
+          { name: "College Basketball" },
+          { name: "WNBA" },
+        ],
+      },
+      {
+        name: "Tennis",
+        items: [
+          { name: "Singles" },
+          { name: "Doubles" },
+          { name: "Mixed Doubles" },
+          { name: "Grand Slams" },
+          { name: "ATP Tour" },
+          { name: "WTA Tour" },
+          { name: "Amateur Tennis" },
+          { name: "Table Tennis" },
+          { name: "Padel Tennis" },
+        ],
+      },
+      {
+        name: "Cricket",
+        items: [
+          { name: "Test Cricket" },
+          { name: "ODI" },
+          { name: "T20" },
+          { name: "IPL" },
+          { name: "Big Bash" },
+          { name: "County Cricket" },
+          { name: "Club Cricket" },
+        ],
+      },
+      {
+        name: "Combat Sports",
+        items: [
+          { name: "Boxing" },
+          { name: "MMA" },
+          { name: "Wrestling" },
+          { name: "Judo" },
+          { name: "Karate" },
+          { name: "Brazilian Jiu-Jitsu" },
+          { name: "Muay Thai" },
+          { name: "Taekwondo" },
+        ],
+      },
+      {
+        name: "Running",
+        items: [
+          { name: "Marathon" },
+          { name: "Trail Running" },
+          { name: "Sprint" },
+          { name: "Cross Country" },
+          { name: "Park Run" },
+          { name: "Ultra Running" },
+        ],
+      },
+      {
+        name: "Cycling",
+        items: [
+          { name: "Road Cycling" },
+          { name: "Mountain Biking" },
+          { name: "BMX" },
+          { name: "Track Cycling" },
+          { name: "Cycle Touring" },
+          { name: "Gravel Biking" },
+        ],
+      },
+      {
+        name: "Winter Sports",
+        items: [
+          { name: "Skiing" },
+          { name: "Snowboarding" },
+          { name: "Ice Hockey" },
+          { name: "Figure Skating" },
+          { name: "Curling" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Music",
+    items: [
+      {
+        name: "Pop",
+        items: [
+          { name: "Contemporary Pop" },
+          { name: "K-Pop" },
+          { name: "Indie Pop" },
+          { name: "Synth Pop" },
+          { name: "Art Pop" },
+          { name: "Euro Pop" },
+          { name: "J-Pop" },
+          { name: "Teen Pop" },
+          { name: "Dance Pop" },
+        ],
+      },
+      {
+        name: "Rock",
+        items: [
+          { name: "Classic Rock" },
+          { name: "Alternative Rock" },
+          { name: "Metal" },
+          { name: "Progressive Rock" },
+          { name: "Punk Rock" },
+          { name: "Indie Rock" },
+          { name: "Grunge" },
+          { name: "Hard Rock" },
+          { name: "Folk Rock" },
+          { name: "Psychedelic Rock" },
+          { name: "Blues Rock" },
+        ],
+      },
+      {
+        name: "Hip Hop",
+        items: [
+          { name: "Old School" },
+          { name: "Trap" },
+          { name: "Gangsta Rap" },
+          { name: "Underground" },
+          { name: "Alternative Hip Hop" },
+          { name: "UK Drill" },
+          { name: "Grime" },
+        ],
+      },
+      {
+        name: "Electronic",
+        items: [
+          { name: "House" },
+          { name: "Techno" },
+          { name: "Drum & Bass" },
+          { name: "Ambient" },
+          { name: "Trance" },
+          { name: "Dubstep" },
+          { name: "EDM" },
+          { name: "IDM" },
+          { name: "Garage" },
+        ],
+      },
+      {
+        name: "Classical",
+        items: [
+          { name: "Symphony" },
+          { name: "Opera" },
+          { name: "Chamber Music" },
+          { name: "Baroque" },
+          { name: "Contemporary Classical" },
+          { name: "Film Scores" },
+        ],
+      },
+      {
+        name: "Music Production",
+        items: [
+          { name: "Beat Making" },
+          { name: "Sound Design" },
+          { name: "Mixing" },
+          { name: "Mastering" },
+          { name: "Studio Recording" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Arts & Crafts",
+    items: [
+      {
+        name: "Painting",
+        items: [
+          { name: "Oil Painting" },
+          { name: "Watercolor" },
+          { name: "Acrylic" },
+          { name: "Digital Painting" },
+          { name: "Gouache" },
+          { name: "Encaustic" },
+          { name: "Spray Painting" },
+          { name: "Chinese Painting" },
+        ],
+      },
+      {
+        name: "Drawing",
+        items: [
+          { name: "Sketching" },
+          { name: "Illustration" },
+          { name: "Comic Art" },
+          { name: "Manga" },
+          { name: "Character Design" },
+          { name: "Urban Sketching" },
+        ],
+      },
+      {
+        name: "Crafts",
+        items: [
+          { name: "Knitting" },
+          { name: "Crochet" },
+          { name: "Embroidery" },
+          { name: "Quilting" },
+          { name: "Pottery" },
+          { name: "Jewelry Making" },
+          { name: "Candle Making" },
+          { name: "Soap Making" },
+        ],
+      },
+      {
+        name: "Digital Art",
+        items: [
+          { name: "3D Modeling" },
+          { name: "Vector Art" },
+          { name: "Pixel Art" },
+          { name: "NFT Art" },
+          { name: "Motion Graphics" },
+          { name: "VFX" },
+          { name: "Digital Sculpting" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Technology",
+    items: [
+      {
+        name: "Programming",
+        items: [
+          { name: "Web Development" },
+          { name: "Mobile Development" },
+          { name: "Game Development" },
+          { name: "AI/ML" },
+          { name: "DevOps" },
+          { name: "Blockchain" },
+          { name: "Cloud Computing" },
+          { name: "Cybersecurity" },
+          { name: "Data Science" },
+        ],
+      },
+      {
+        name: "Gaming",
+        items: [
+          { name: "PC Gaming" },
+          { name: "Console Gaming" },
+          { name: "Mobile Gaming" },
+          { name: "VR Gaming" },
+          { name: "Esports" },
+          { name: "Retro Gaming" },
+          { name: "Game Streaming" },
+          { name: "Speedrunning" },
+        ],
+      },
+      {
+        name: "Hardware",
+        items: [
+          { name: "PC Building" },
+          { name: "Arduino" },
+          { name: "Raspberry Pi" },
+          { name: "3D Printing" },
+          { name: "Robotics" },
+          { name: "Drones" },
+          { name: "Home Automation" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Food & Drink",
+    items: [
+      {
+        name: "Cooking",
+        items: [
+          { name: "Asian Cuisine" },
+          { name: "European Cuisine" },
+          { name: "Mediterranean" },
+          { name: "Baking" },
+          { name: "BBQ & Grilling" },
+          { name: "Vegan Cooking" },
+          { name: "Meal Prep" },
+          { name: "Sous Vide" },
+          { name: "Fermentation" },
+          { name: "Food Photography" },
+        ],
+      },
+      {
+        name: "Beverages",
+        items: [
+          { name: "Coffee" },
+          { name: "Tea" },
+          { name: "Wine" },
+          { name: "Craft Beer" },
+          { name: "Cocktails" },
+          { name: "Home Brewing" },
+          { name: "Whiskey" },
+          { name: "Kombucha" },
+        ],
+      },
+      {
+        name: "Baking",
+        items: [
+          { name: "Bread Making" },
+          { name: "Pastry" },
+          { name: "Cake Decorating" },
+          { name: "Cookies" },
+          { name: "Sourdough" },
+          { name: "Gluten-free" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Outdoors",
+    items: [
+      {
+        name: "Hiking",
+        items: [
+          { name: "Trail Hiking" },
+          { name: "Mountain Climbing" },
+          { name: "Backpacking" },
+          { name: "Urban Hiking" },
+          { name: "Nature Walking" },
+        ],
+      },
+      {
+        name: "Gardening",
+        items: [
+          { name: "Vegetable Growing" },
+          { name: "Flower Gardens" },
+          { name: "Hydroponics" },
+          { name: "Bonsai" },
+          { name: "Indoor Plants" },
+          { name: "Permaculture" },
+        ],
+      },
+      {
+        name: "Water Sports",
+        items: [
+          { name: "Surfing" },
+          { name: "Swimming" },
+          { name: "Kayaking" },
+          { name: "Sailing" },
+          { name: "Paddleboarding" },
+          { name: "Scuba Diving" },
+        ],
+      },
+      {
+        name: "Camping",
+        items: [
+          { name: "Traditional Camping" },
+          { name: "Glamping" },
+          { name: "Bushcraft" },
+          { name: "RV Camping" },
+          { name: "Wild Camping" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Reading & Writing",
+    items: [
+      {
+        name: "Fiction",
+        items: [
+          { name: "Fantasy" },
+          { name: "Science Fiction" },
+          { name: "Mystery" },
+          { name: "Romance" },
+          { name: "Horror" },
+          { name: "Historical Fiction" },
+        ],
+      },
+      {
+        name: "Non-Fiction",
+        items: [
+          { name: "Self-Help" },
+          { name: "Biography" },
+          { name: "History" },
+          { name: "Science" },
+          { name: "Philosophy" },
+          { name: "Business" },
+        ],
+      },
+      {
+        name: "Creative Writing",
+        items: [
+          { name: "Novel Writing" },
+          { name: "Poetry" },
+          { name: "Screenwriting" },
+          { name: "Blogging" },
+          { name: "Journalism" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Collecting",
+    items: [
+      {
+        name: "Stamps",
+        items: [
+          { name: "Vintage Stamps" },
+          { name: "International Stamps" },
+          { name: "First Day Covers" },
+        ],
+      },
+      {
+        name: "Coins",
+        items: [
+          { name: "Ancient Coins" },
+          { name: "World Coins" },
+          { name: "Commemorative Coins" },
+        ],
+      },
+      {
+        name: "Trading Cards",
+        items: [
+          { name: "Pokemon Cards" },
+          { name: "Magic: The Gathering" },
+          { name: "Sports Cards" },
+          { name: "Yu-Gi-Oh!" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Photography",
+    items: [
+      {
+        name: "Digital Photography",
+        items: [
+          { name: "Portrait" },
+          { name: "Landscape" },
+          { name: "Street" },
+          { name: "Wildlife" },
+          { name: "Macro" },
+        ],
+      },
+      {
+        name: "Film Photography",
+        items: [
+          { name: "35mm" },
+          { name: "Medium Format" },
+          { name: "Large Format" },
+          { name: "Darkroom" },
+        ],
+      },
+      {
+        name: "Post-Processing",
+        items: [
+          { name: "Lightroom" },
+          { name: "Photoshop" },
+          { name: "Color Grading" },
+          { name: "Black & White" },
+        ],
+      },
+    ],
+  },
+];
