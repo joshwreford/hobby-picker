@@ -5,6 +5,7 @@ import { data } from "./data";
 export interface Hobby {
   name: string;
   items?: Hobby[];
+  score: number;
 }
 
 // Predefined pleasant colors that will be repeated or used as a base for generated colors
@@ -57,9 +58,20 @@ const getCategoryColor = (categoryName: string, index: number): string => {
   return categoryColorsMap.get(categoryName) ?? "#FFFFFF";
 };
 
-// Initialize category colors based on data order
+// Sort hobbies by score
+const sortByScore = (hobbies: Hobby[]): Hobby[] => {
+  return [...hobbies]
+    .sort((a, b) => b.score - a.score)
+    .map((hobby) => ({
+      ...hobby,
+      items: hobby.items ? sortByScore(hobby.items) : undefined,
+    }));
+};
+
+// Initialize category colors based on sorted data
 const initializeCategoryColors = () => {
-  data.forEach((hobby, index) => {
+  const sortedData = sortByScore(data);
+  sortedData.forEach((hobby, index) => {
     getCategoryColor(hobby.name, index);
   });
 };
@@ -156,7 +168,7 @@ export default function Hobbies() {
       return null;
     };
 
-    const category = findCategory(data, hobbyName);
+    const category = findCategory(sortByScore(data), hobbyName);
     return category ? categoryColorsMap.get(category) ?? "#FFFFFF" : "#FFFFFF";
   }, []);
 
@@ -180,7 +192,7 @@ export default function Hobbies() {
         hobby.items?.forEach(traverse);
       };
 
-      hobbies.forEach(traverse);
+      sortByScore(hobbies).forEach(traverse);
       return result;
     },
     []
@@ -207,7 +219,7 @@ export default function Hobbies() {
         return;
       }
 
-      const allHobbies = getAllHobbies(data);
+      const allHobbies = getAllHobbies(sortByScore(data));
       const searchLower = trimmedValue.toLowerCase();
       const filtered = allHobbies.filter((hobby) =>
         hobby.toLowerCase().includes(searchLower)
@@ -296,7 +308,7 @@ export default function Hobbies() {
             </summary>
             {hobby.items && (
               <div className="ml-4 mt-4">
-                {renderItems(hobby.items, currentPath)}
+                {renderItems(sortByScore(hobby.items), currentPath)}
               </div>
             )}
           </details>
@@ -325,7 +337,7 @@ export default function Hobbies() {
         );
       };
 
-      return renderItems(hobbies, parentPath);
+      return renderItems(sortByScore(hobbies), parentPath);
     },
     [
       expandedSections,
@@ -422,7 +434,7 @@ export default function Hobbies() {
 
       {/* Hobbies Tree */}
       <div className="w-full max-w-md text-black">
-        {renderHobbiesAndItems(data)}
+        {renderHobbiesAndItems(sortByScore(data))}
       </div>
     </div>
   );
