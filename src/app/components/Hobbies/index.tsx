@@ -19,10 +19,10 @@ const baseColors = [
   "#D5FFFF", // Pastel cyan
   "#FFC4C4", // Pastel salmon
   "#D5C4FF", // Pastel lavender
-];
+] as const;
 
 // Generate a similar color to the base colors
-const generateSimilarColor = (index: number) => {
+const generateSimilarColor = (index: number): string => {
   const baseColor = baseColors[index % baseColors.length];
   // Convert hex to RGB
   const r = parseInt(baseColor.slice(1, 3), 16);
@@ -37,9 +37,9 @@ const generateSimilarColor = (index: number) => {
   const newG = clamp(g + variation());
   const newB = clamp(b + variation());
 
-  return `#${newR.toString(16).padStart(2, "0")}${newG
-    .toString(16)
-    .padStart(2, "0")}${newB.toString(16).padStart(2, "0")}`;
+  return `#${[newR, newG, newB]
+    .map((n) => n.toString(16).padStart(2, "0"))
+    .join("")}`;
 };
 
 // Create a Map to store category colors as they're assigned
@@ -54,7 +54,7 @@ const getCategoryColor = (categoryName: string, index: number): string => {
         : generateSimilarColor(index);
     categoryColorsMap.set(categoryName, color);
   }
-  return categoryColorsMap.get(categoryName) || "#FFFFFF";
+  return categoryColorsMap.get(categoryName) ?? "#FFFFFF";
 };
 
 // Initialize category colors based on data order
@@ -68,15 +68,17 @@ const initializeCategoryColors = () => {
 initializeCategoryColors();
 
 // Reusable Components
-const HobbyItem = ({
-  hobby,
-  isSelected,
-  onToggle,
-}: {
+interface HobbyItemProps {
   hobby: string;
   isSelected: boolean;
   onToggle: () => void;
   backgroundColor?: string;
+}
+
+const HobbyItem: React.FC<HobbyItemProps> = ({
+  hobby,
+  isSelected,
+  onToggle,
 }) => (
   <div
     className="p-2 hover:bg-opacity-80 cursor-pointer flex items-center"
@@ -87,14 +89,16 @@ const HobbyItem = ({
   </div>
 );
 
-const SelectedHobbyTag = ({
-  hobby,
-  onRemove,
-  backgroundColor,
-}: {
+interface SelectedHobbyTagProps {
   hobby: string;
   onRemove: () => void;
   backgroundColor: string;
+}
+
+const SelectedHobbyTag: React.FC<SelectedHobbyTagProps> = ({
+  hobby,
+  onRemove,
+  backgroundColor,
 }) => (
   <div
     key={`selected-${hobby}`}
@@ -102,7 +106,11 @@ const SelectedHobbyTag = ({
     style={{ backgroundColor }}
   >
     {hobby}
-    <button onClick={onRemove} className="ml-2 hover:opacity-70">
+    <button
+      onClick={onRemove}
+      className="ml-2 hover:opacity-70"
+      aria-label={`Remove ${hobby}`}
+    >
       ×
     </button>
   </div>
@@ -112,24 +120,31 @@ const SelectedHobbyTag = ({
 export default function Hobbies() {
   // State
   const [selectedHobbies, setSelectedHobbies] = React.useState<string[]>(() => {
-    // Initialize from localStorage if available
-    const saved = localStorage.getItem("selectedHobbies");
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem("selectedHobbies");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
   });
+
   const [searchTerm, setSearchTerm] = React.useState("");
   const [filteredHobbies, setFilteredHobbies] = React.useState<string[]>([]);
-  const [expandedSections, setExpandedSections] = React.useState<{
-    [key: string]: number;
-  }>({});
+  const [expandedSections, setExpandedSections] = React.useState<
+    Record<string, number>
+  >({});
 
   // Save to localStorage whenever selectedHobbies changes
   React.useEffect(() => {
-    localStorage.setItem("selectedHobbies", JSON.stringify(selectedHobbies));
+    try {
+      localStorage.setItem("selectedHobbies", JSON.stringify(selectedHobbies));
+    } catch (error) {
+      console.error("Failed to save hobbies to localStorage:", error);
+    }
   }, [selectedHobbies]);
 
   // Get color for a hobby based on its top-level category
-  const getHobbyColor = React.useCallback((hobbyName: string) => {
-    // Find the top-level category this hobby belongs to
+  const getHobbyColor = React.useCallback((hobbyName: string): string => {
     const findCategory = (hobbies: Hobby[], target: string): string | null => {
       for (const hobby of hobbies) {
         if (hobby.name === target) return hobby.name;
@@ -142,12 +157,12 @@ export default function Hobbies() {
     };
 
     const category = findCategory(data, hobbyName);
-    return category ? categoryColorsMap.get(category) || "#FFFFFF" : "#FFFFFF";
+    return category ? categoryColorsMap.get(category) ?? "#FFFFFF" : "#FFFFFF";
   }, []);
 
   // Utility Functions
   const getAllHobbies = React.useCallback((hobbies: Hobby[]): string[] => {
-    return hobbies.reduce((acc: string[], hobby: Hobby) => {
+    return hobbies.reduce<string[]>((acc, hobby) => {
       acc.push(hobby.name);
       if (hobby.items) {
         acc.push(...getAllHobbies(hobby.items));
@@ -160,7 +175,7 @@ export default function Hobbies() {
     (hobbies: Hobby[]): string[] => {
       const result: string[] = [];
 
-      const traverse = (hobby: Hobby) => {
+      const traverse = (hobby: Hobby): void => {
         result.push(hobby.name);
         hobby.items?.forEach(traverse);
       };
@@ -174,22 +189,28 @@ export default function Hobbies() {
   // Event Handlers
   const toggleHobby = React.useCallback((hobby: string) => {
     setSelectedHobbies((prev) =>
-      prev.includes(hobby) ? prev.filter((i) => i !== hobby) : [...prev, hobby]
+      prev.includes(hobby) ? prev.filter((h) => h !== hobby) : [...prev, hobby]
     );
+  }, []);
+
+  const clearAllHobbies = React.useCallback(() => {
+    setSelectedHobbies([]);
   }, []);
 
   const handleSearch = React.useCallback(
     (value: string) => {
       setSearchTerm(value);
 
-      if (value.trim() === "") {
+      const trimmedValue = value.trim();
+      if (!trimmedValue) {
         setFilteredHobbies([]);
         return;
       }
 
       const allHobbies = getAllHobbies(data);
+      const searchLower = trimmedValue.toLowerCase();
       const filtered = allHobbies.filter((hobby) =>
-        hobby.toLowerCase().includes(value.toLowerCase())
+        hobby.toLowerCase().includes(searchLower)
       );
       setFilteredHobbies(filtered);
     },
@@ -236,7 +257,7 @@ export default function Hobbies() {
 
         return (
           <details
-            key={`${hobby.name}-${hobby}`}
+            key={`${hobby.name}-${currentPath}`}
             className="mb-4 mr-2 rounded-lg overflow-hidden [&>summary>svg]:open:rotate-180"
             style={{ border: `1px solid ${backgroundColor}` }}
           >
@@ -248,13 +269,13 @@ export default function Hobbies() {
                 <div className="flex items-center">
                   <input
                     type="checkbox"
-                    id={hobby.name}
+                    id={currentPath}
                     className="mr-2"
                     checked={isSelected}
                     onChange={() => toggleHobby(hobby.name)}
                     onClick={(e) => e.stopPropagation()}
                   />
-                  <label htmlFor={hobby.name}>{hobby.name}</label>
+                  <label htmlFor={currentPath}>{hobby.name}</label>
                 </div>
                 <span className="text-black opacity-50">{countDisplay}</span>
               </div>
@@ -263,6 +284,7 @@ export default function Hobbies() {
                   className="w-4 h-4 transition-transform duration-200"
                   viewBox="0 0 20 20"
                   fill="currentColor"
+                  aria-hidden="true"
                 >
                   <path
                     fillRule="evenodd"
@@ -343,19 +365,28 @@ export default function Hobbies() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Render
   return (
     <div className="grid grid-rows-[auto_auto_1fr_20px] justify-items-center min-h-screen p-8 pb-20 gap-4 font-[family-name:var(--font-geist-sans)]">
       {/* Selected Hobbies Tags */}
-      <div className="w-full max-w-md flex flex-wrap gap-2 min-h-[28px]">
-        {orderedSelectedHobbies.map((hobby) => (
-          <SelectedHobbyTag
-            key={hobby}
-            hobby={hobby}
-            onRemove={() => toggleHobby(hobby)}
-            backgroundColor={getHobbyColor(hobby)}
-          />
-        ))}
+      <div className="w-full max-w-md">
+        <div className="flex flex-wrap gap-2 min-h-[28px]">
+          {orderedSelectedHobbies.map((hobby) => (
+            <SelectedHobbyTag
+              key={hobby}
+              hobby={hobby}
+              onRemove={() => toggleHobby(hobby)}
+              backgroundColor={getHobbyColor(hobby)}
+            />
+          ))}
+        </div>
+        {selectedHobbies.length > 0 && (
+          <button
+            onClick={clearAllHobbies}
+            className="mt-2 px-3 py-1 text-sm text-red-500 hover:text-red-700 transition-colors duration-200"
+          >
+            Clear all
+          </button>
+        )}
       </div>
 
       {/* Search Input */}
@@ -366,11 +397,16 @@ export default function Hobbies() {
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search hobbies..."
           className="w-full p-2 border rounded-lg mb-4 text-black"
+          aria-label="Search hobbies"
+          aria-expanded={filteredHobbies.length > 0}
         />
 
         {/* Search Results Dropdown */}
         {filteredHobbies.length > 0 && searchTerm && (
-          <div className="absolute w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto z-10 text-black">
+          <div
+            className="absolute w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto z-10 text-black"
+            role="listbox"
+          >
             {filteredHobbies.map((hobby) => (
               <HobbyItem
                 key={hobby}
